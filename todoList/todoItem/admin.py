@@ -7,13 +7,13 @@ class folderAdminConfig(admin.ModelAdmin):
     model = tag
     search_fields = ('id', 'name')
     ordering = ('-modified',)
-    list_display = ('name', 'ownerUsername')
+    list_display = ('name', 'ownerUsername', 'folderObjectsCount')
 
 class tagAdminConfig(admin.ModelAdmin):
     model = tag
     search_fields = ('id', 'name')
     ordering = ('-modified',)
-    list_display = ('name', 'ownerUsername')
+    list_display = ('name', 'ownerUsername', 'tagsCount')
 
 class todoListAdminConfig(admin.ModelAdmin):
     model = todoItem

@@ -19,6 +19,10 @@ class folder(models.Model):
     def ownerUsername(self):
         return self.owner.username
 
+    @property
+    def folderObjectsCount(self):
+        return todoItem.objects.filter(folder=self.id).count
+
 class tag(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     owner = models.OneToOneField('authApp.User', on_delete=models.CASCADE)
@@ -33,6 +37,10 @@ class tag(models.Model):
     @property
     def ownerUsername(self):
         return self.owner.username
+
+    @property
+    def tagsCount():
+        return tag.objects.count
 
 class todoItem(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)

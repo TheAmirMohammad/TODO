@@ -1,7 +1,7 @@
 from django.db import models
 from django.contrib.auth.models import AbstractUser
 import uuid
-from datetime import date, datetime
+from datetime import date
 
 # Create your models here.
 class User(AbstractUser):
@@ -17,7 +17,8 @@ class User(AbstractUser):
 
     @property
     def age(self):
-        return date.now - self.birthday
+        delta = date.today()-self.birthday
+        return delta.days // 365
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = ['first_name', 'last_name', 'username', 'birthday']

@@ -6,7 +6,7 @@ import uuid
 # Create your models here.
 class Folder(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    owner = models.OneToOneField('authApp.User', on_delete=models.CASCADE)
+    owner = models.ForeignKey('authApp.User', on_delete=models.CASCADE)
     name = models.CharField(max_length=250, unique=True)
     description = models.TextField(default='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -25,7 +25,7 @@ class Folder(models.Model):
 
 class Tag(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    owner = models.OneToOneField('authApp.User', on_delete=models.CASCADE)
+    owner = models.ForeignKey('authApp.User', on_delete=models.CASCADE)
     name = models.CharField(max_length=250)
     description = models.TextField(default='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)

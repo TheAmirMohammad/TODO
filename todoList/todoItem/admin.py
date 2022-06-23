@@ -1,22 +1,22 @@
 from turtle import title
 from django.contrib import admin
-from .models import todoItem, tag, folder
+from .models import *
 
 # Register your models here.
-class folderAdminConfig(admin.ModelAdmin):
-    model = tag
+class FolderAdminConfig(admin.ModelAdmin):
+    model = Folder
     search_fields = ('id', 'name')
     ordering = ('-modified',)
     list_display = ('name', 'ownerUsername', 'folderObjectsCount')
 
-class tagAdminConfig(admin.ModelAdmin):
-    model = tag
+class TagAdminConfig(admin.ModelAdmin):
+    model = Tag
     search_fields = ('id', 'name')
     ordering = ('-modified',)
     list_display = ('name', 'ownerUsername', 'tagsCount')
 
-class todoListAdminConfig(admin.ModelAdmin):
-    model = todoItem
+class TodoItemAdminConfig(admin.ModelAdmin):
+    model = TodoItem
     search_fields = ('id', 'title')
     list_filter = ('isFinished',)
     ordering = ('-modified',)
@@ -26,6 +26,6 @@ class todoListAdminConfig(admin.ModelAdmin):
     # )
     # fields: Optional[_FieldGroups]
 
-admin.site.register(folder, folderAdminConfig)
-admin.site.register(tag, tagAdminConfig)
-admin.site.register(todoItem, todoListAdminConfig)
+admin.site.register(Folder, FolderAdminConfig)
+admin.site.register(Tag, TagAdminConfig)
+admin.site.register(TodoItem, TodoItemAdminConfig)

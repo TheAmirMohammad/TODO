@@ -4,7 +4,7 @@ from django.db import models
 import uuid
 
 # Create your models here.
-class folder(models.Model):
+class Folder(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     owner = models.OneToOneField('authApp.User', on_delete=models.CASCADE)
     name = models.CharField(max_length=250, unique=True)
@@ -21,9 +21,9 @@ class folder(models.Model):
 
     @property
     def folderObjectsCount(self):
-        return todoItem.objects.filter(folder=self.id).count
+        return TodoItem.objects.filter(folder=self.id).count
 
-class tag(models.Model):
+class Tag(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     owner = models.OneToOneField('authApp.User', on_delete=models.CASCADE)
     name = models.CharField(max_length=250)
@@ -40,9 +40,9 @@ class tag(models.Model):
 
     @property
     def tagsCount():
-        return tag.objects.count
+        return Tag.objects.count
 
-class todoItem(models.Model):
+class TodoItem(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
     owner = models.OneToOneField('authApp.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
@@ -50,8 +50,8 @@ class todoItem(models.Model):
     isFinished = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField(tag, blank=True)
-    folder = models.OneToOneField(folder, on_delete=models.SET_DEFAULT, default=None, null=True, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True)
+    folder = models.OneToOneField(Folder, on_delete=models.SET_DEFAULT, default=None, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.title

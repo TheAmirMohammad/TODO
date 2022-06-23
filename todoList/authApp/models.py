@@ -5,9 +5,16 @@ from datetime import date
 
 # Create your models here.
 class User(AbstractUser):
+    sex_choice = (
+        ('male', 'male'),
+        ('female', 'female'),
+        ('non-binary', 'non-binary'),
+        ('rather not to say', 'rather not to say')
+    )
     id = models.UUIDField(default = uuid.uuid4, primary_key = True, editable=False)
     first_name = models.CharField(max_length=150, blank=True)
     last_name = models.CharField(max_length=150, blank=True)
+    sex = models.CharField(max_length=50, choices=sex_choice, default='rather not to say', blank=True)
     email = models.EmailField(
         verbose_name='email address',
         max_length=255,

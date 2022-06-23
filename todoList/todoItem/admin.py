@@ -1,8 +1,14 @@
 from turtle import title
 from django.contrib import admin
-from .models import todoItem
+from .models import todoItem, tag
 
 # Register your models here.
+class tagAdminConfig(admin.ModelAdmin):
+    model = tag
+    search_fields = ('id', 'name')
+    ordering = ('-modified',)
+    list_display = ('name', 'ownerUsername')
+
 class todoListAdminConfig(admin.ModelAdmin):
     model = todoItem
     search_fields = ('id', 'title')
@@ -14,4 +20,5 @@ class todoListAdminConfig(admin.ModelAdmin):
     # )
     # fields: Optional[_FieldGroups]
 
+admin.site.register(tag, tagAdminConfig)
 admin.site.register(todoItem, todoListAdminConfig)

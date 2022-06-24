@@ -44,7 +44,7 @@ class Tag(models.Model):
 
 class TodoItem(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    owner = models.OneToOneField('authApp.User', on_delete=models.CASCADE)
+    owner = models.ForeignKey('authApp.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     description = models.TextField(default='', blank=True, null=True)
     isFinished = models.BooleanField(default=False)

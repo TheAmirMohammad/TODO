@@ -4,9 +4,9 @@ from django.db import models
 import uuid
 
 # Create your models here.
-class folder(models.Model):
+class Folder(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    owner = models.OneToOneField('authApp.User', on_delete=models.CASCADE)
+    owner = models.ForeignKey('authApp.User', on_delete=models.CASCADE)
     name = models.CharField(max_length=250, unique=True)
     description = models.TextField(default='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -21,11 +21,11 @@ class folder(models.Model):
 
     @property
     def folderObjectsCount(self):
-        return todoItem.objects.filter(folder=self.id).count
+        return TodoItem.objects.filter(folder=self.id).count
 
-class tag(models.Model):
+class Tag(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    owner = models.OneToOneField('authApp.User', on_delete=models.CASCADE)
+    owner = models.ForeignKey('authApp.User', on_delete=models.CASCADE)
     name = models.CharField(max_length=250)
     description = models.TextField(default='', blank=True, null=True)
     created = models.DateTimeField(auto_now_add=True)
@@ -39,19 +39,19 @@ class tag(models.Model):
         return self.owner.username
 
     @property
-    def tagsCount():
-        return tag.objects.count
+    def tagsCount(self):
+        return self.todos.count
 
-class todoItem(models.Model):
+class TodoItem(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
-    owner = models.OneToOneField('authApp.User', on_delete=models.CASCADE)
+    owner = models.ForeignKey('authApp.User', on_delete=models.CASCADE)
     title = models.CharField(max_length=250)
     description = models.TextField(default='', blank=True, null=True)
     isFinished = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField(tag, blank=True)
-    folder = models.OneToOneField(folder, on_delete=models.SET_DEFAULT, default=None, null=True, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True, related_name="todos")
+    folder = models.ForeignKey(Folder, on_delete=models.SET_DEFAULT, default=None, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.title

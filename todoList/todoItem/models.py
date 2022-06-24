@@ -39,8 +39,8 @@ class Tag(models.Model):
         return self.owner.username
 
     @property
-    def tagsCount():
-        return Tag.objects.count
+    def tagsCount(self):
+        return self.todos.count
 
 class TodoItem(models.Model):
     id = models.UUIDField(default=uuid.uuid4, primary_key=True, editable=False)
@@ -50,8 +50,8 @@ class TodoItem(models.Model):
     isFinished = models.BooleanField(default=False)
     created = models.DateTimeField(auto_now_add=True)
     modified = models.DateTimeField(auto_now=True)
-    tags = models.ManyToManyField(Tag, blank=True)
-    folder = models.OneToOneField(Folder, on_delete=models.SET_DEFAULT, default=None, null=True, blank=True)
+    tags = models.ManyToManyField(Tag, blank=True, related_name="todos")
+    folder = models.ForeignKey(Folder, on_delete=models.SET_DEFAULT, default=None, null=True, blank=True)
 
     def __str__(self) -> str:
         return self.title

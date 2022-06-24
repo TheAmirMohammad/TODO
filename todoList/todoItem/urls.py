@@ -9,4 +9,8 @@ urlpatterns = [
     # tag
     path('tags/', views.Tags.as_view()),
     path('tags/<str:pk>/', views.TagsRUD.as_view()),
+
+    # todo item
+    path('todoItems/', views.TodoItems.as_view()),
+    path('todoItems/<str:pk>/', views.TodoItemsRUD.as_view()),
 ]

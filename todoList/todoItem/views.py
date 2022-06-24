@@ -111,4 +111,51 @@ class TagsRUD(APIView):
         return Response('Item successfully deleted !')
 
 
+# Todo Item
+class TodoItems(APIView):
+    """get all and create new todoItem"""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """get all of todoItems"""
+        todoItems = TodoItem.objects.all()
+        serializer = TodoItemSerializer(todoItems, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        """create a new todoItem"""
+        _user = request.user
+        request.data['owner'] = _user.id
+        serializer = TodoItemSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
+
+class TodoItemsRUD(APIView):
+    """retrieve, update and delete a todoItem"""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        """get an instance of todoItem"""
+        todoItem = get_object_or_404(TodoItem, id=pk)
+        serializer = TodoItemSerializer(todoItem, many=False)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        """update a todoItem"""
+        todoItem = get_object_or_404(TodoItem, id=pk)
+        _user = request.user
+        request.data['owner'] = _user.id
+        serializer = TodoItemSerializer(instance=todoItem, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
+
+    def delete(self, request, pk):
+        """Delete A TodoItem"""
+        todoItem = get_object_or_404(TodoItem, id=pk)
+        todoItem.delete()
+        todoItem.save()
         return Response('Item successfully deleted !')

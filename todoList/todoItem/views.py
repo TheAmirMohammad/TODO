@@ -6,10 +6,12 @@ from django.shortcuts import get_object_or_404
 
 from rest_framework import status
 
-from todoItem.serializers import FolderSerializer
+from todoItem.serializers import *
 from .models import *
 
 # Create your views here.
+
+# Folder
 class Folders(APIView):
     """get all and create new folder"""
     permission_classes = [IsAuthenticated]
@@ -56,4 +58,57 @@ class FoldersRUD(APIView):
         folder = get_object_or_404(Folder, id=pk)
         folder.delete()
         folder.save()
+        return Response('Item successfully deleted !')
+
+
+# Tag
+class Tags(APIView):
+    """get all and create new tag"""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request):
+        """get all of tags"""
+        tags = Tag.objects.all()
+        serializer = TagSerializer(tags, many=True)
+        return Response(serializer.data)
+    
+    def post(self, request):
+        """create a new tag"""
+        _user = request.user
+        request.data['owner'] = _user.id
+        serializer = TagSerializer(data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
+
+class TagsRUD(APIView):
+    """retrieve, update and delete a tag"""
+    permission_classes = [IsAuthenticated]
+
+    def get(self, request, pk):
+        """get an instance of tag"""
+        tag = get_object_or_404(Tag, id=pk)
+        serializer = TagSerializer(tag, many=False)
+        return Response(serializer.data)
+    
+    def put(self, request, pk):
+        """update a tag"""
+        tag = get_object_or_404(Tag, id=pk)
+        _user = request.user
+        request.data['owner'] = _user.id
+        serializer = TagSerializer(instance=tag, data=request.data)
+        if serializer.is_valid():
+            serializer.save()
+            return Response(serializer.data)
+        return Response(serializer.errors, status=status.HTTP_403_FORBIDDEN)
+
+    def delete(self, request, pk):
+        """Delete A Tag"""
+        tag = get_object_or_404(Tag, id=pk)
+        tag.delete()
+        tag.save()
+        return Response('Item successfully deleted !')
+
+
         return Response('Item successfully deleted !')

@@ -137,19 +137,16 @@ WSGI_APPLICATION = 'todoList.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.postgresql',
-#         'NAME': 'todoApp',
-#         'USER': 'todoMaster',
-#         'PASSWORD': 'theTodoMaster',
-#         'HOST': 'localhost',
-#         'PORT': '5432',
-#     }
-# }
-
 DATABASES = {
     'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': 'todoApp',
+        'USER': 'todoMaster',
+        'PASSWORD': 'theTodoMaster',
+        'HOST': 'localhost',
+        'PORT': '5432',
+    },
+    'heroku': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'd98leik4u4pht1',
         'USER': 'witylubpahyigo',

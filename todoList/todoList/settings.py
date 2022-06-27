@@ -137,17 +137,27 @@ WSGI_APPLICATION = 'todoList.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
 
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.postgresql',
+#         'NAME': 'todoApp',
+#         'USER': 'todoMaster',
+#         'PASSWORD': 'theTodoMaster',
+#         'HOST': 'localhost',
+#         'PORT': '5432',
+#     }
+# }
+
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'todoApp',
-        'USER': 'todoMaster',
-        'PASSWORD': 'theTodoMaster',
-        'HOST': 'localhost',
+        'NAME': 'd98leik4u4pht1',
+        'USER': 'witylubpahyigo',
+        'PASSWORD': 'a82a0352457d3af2dd87aaf216af6eb7065b906428b42fcd9776880595b89d4d',
+        'HOST': 'ec2-18-204-142-254.compute-1.amazonaws.com',
         'PORT': '5432',
     }
 }
-
 
 # Password validation
 # https://docs.djangoproject.com/en/3.2/ref/settings/#auth-password-validators
@@ -186,6 +196,13 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/3.2/howto/static-files/
 
 STATIC_URL = '/static/'
+MEDIA_URL = '/images/'
+
+STATICFILES_DIRS = [
+    BASE_DIR / 'static'
+]
+
+MEDIA_ROOT = BASE_DIR / 'static/images'
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
